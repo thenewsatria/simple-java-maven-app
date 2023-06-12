@@ -3,13 +3,13 @@ node {
 
     stage('Checkout') {
         dockerImage.pull()
-        dockerImage.withRun('-v /root/.m2:/root/.m2') {
+        dockerImage.inside('-v /root/.m2:/root/.m2') {
             checkout scm
         }
     }
 
     stage('Build') {
-        dockerImage.withRun('-v /root/.m2:/root/.m2') {
+        dockerImage.inside('-v /root/.m2:/root/.m2') {
             sh 'mvn -B -DskipTests clean package'
         }
     }
