@@ -13,4 +13,10 @@ node {
             sh 'mvn -B -DskipTests clean package'
         }
     }
+
+    stage('Test') {
+        dockerImage.inside('-v /root/.m2:/root/.m2') {
+            sh 'mvn test'
+        }
+    }
 }
