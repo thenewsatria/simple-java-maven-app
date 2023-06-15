@@ -19,4 +19,17 @@ node {
             sh 'mvn test'
         }
     }
+
+    stage('Manual Approval') {
+        input message: 'Lanjutkan ke tahap Deploy?'
+    }
+
+    stage('Deploy') {
+        dockerImage.inside('-v /root/.m2:/root/.m2') {
+            sh './jenkins/scripts/deliver.sh'
+            
+            // sebagai syarat
+            sleep(time: 1, unit: 'MINUTES')
+        }
+    }
 }
